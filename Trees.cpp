@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stack>
+#include <string>
 
 using namespace std;
 
@@ -127,6 +129,163 @@ bool checkBST(Node* root)
         return false;
     }
 }
+
+// Fing how many branches down the tree is!
+
+int n, data, l, r;
+int height(Node* root){
+    if(root->left == NULL && root->right == NULL){
+        return 0;
+    }
+    else{
+        if(root->left){
+            l=height(root->left);
+        }
+        if(root->right){
+            r=height(root->right);
+        }
+        if(l>r){
+            l++;
+            return l;
+        }
+        else{
+            r++;
+            return r;
+        }
+    }
+}
+
+// Goal - print out the data on the ouside of the tree!
+// This is completed with the following three functions
+
+static void TopViewPostOrder(Node* root){
+    if(root == NULL){
+        return;
+    }
+    else{
+        cout << root -> data << " ";
+        TopViewPostOrder(root -> left);
+    }
+}
+
+static void TopViewPreOrder(Node* root){
+    if(root == NULL){
+        return;
+    }
+    else{
+        cout << root -> data << " ";
+        TopViewPreOrder(root -> right);
+    }
+}
+
+
+void TopView(Node* root){
+    TopViewPostOrder(root);
+    TopViewPreOrder(root -> right);
+}
+
+// To print the nodes in a level order we need to use a queue!
+
+stack<Node*> queue;
+
+void levelOrder(Node* root){
+    if(root == NULL){
+        return;
+    }
+    else{
+        Node* curr = root;
+        queue.push(curr);
+        while(!queue.empty()){
+            curr = queue.front();         // this returns the element at the front of the queue
+            cout << curr -> data << " ";
+            if(curr -> left){               // add childern to queue
+                queue.push(curr->left)
+            }
+            if(curr -> right){
+                queue.push(curr->right);
+            }
+            queue.pop();        // remove the front nodes as we have printed it
+        }
+    }
+            
+
+void InsertBST(Node* root, int data){
+    Node* newNode = new Node;
+    newNode -> rigth, newNode -> left = NULL;
+    newNode -> data = data;
+    if( root == NULL){
+        newNode = root;
+    }
+    else{
+        Node* curr = root;
+        while(curr){
+            if(newNode -> data < curr -> data){
+                if(curr -> left){
+                    curr = curr -> left;
+                }
+                else{
+                    curr -> left = newNode;
+                    break;
+                }
+            }
+            else{
+                if(curr -> right){
+                    curr = curr -> right;
+                }
+                else{
+                    curr -> right = newNode;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+// Huffman Decoding
+// This requiers a second struc!
+// This is very wrong need to take into accout a letter being 10 not just 1 and 0!
+
+struct NodeH{
+    int freq;
+    char data;
+    NodeH* right;
+    NodeH* left;
+};
+
+
+void decode_huff(NodeH* root, string s){
+    if(root == NULL){
+        return;
+    }
+    else{
+        for(int i = 0; i < s.length(); i++){
+            int value = int(s[i]) - 48;
+            NodeH* curr = root;
+            while(curr){
+                if(value == 1){
+                     if(curr -> data){
+                         cout << curr -> data;
+                         break;
+                     }
+                     else{
+                         curr = curr -> left;
+                     }
+                }
+                if(value == 0){
+                    if(curr -> data){
+                        cout << curr -> data;
+                        break;
+                    }
+                    else{
+                        curr = curr -> left;
+                    }
+                }
+            }
+        }
+    }
+}
+                        
+    
 
 int main()
 {
