@@ -243,7 +243,7 @@ void InsertBST(Node* root, int data){
 
 // Huffman Decoding
 // This requiers a second struc!
-// This is very wrong need to take into accout a letter being 10 not just 1 and 0!
+// This is a way of compressing data!
 
 struct NodeH{
     int freq;
@@ -253,38 +253,87 @@ struct NodeH{
 };
 
 
-void decode_huff(NodeH* root, string s){
+void decode_huff(node* root, string s){
     if(root == NULL){
         return;
     }
     else{
-        for(int i = 0; i < s.length(); i++){
+        int i = 0;
+        node* curr = root;
+        for(i; i < s.length(); i++){
             int value = int(s[i]) - 48;
-            NodeH* curr = root;
-            while(curr){
-                if(value == 1){
-                     if(curr -> data){
-                         cout << curr -> data;
-                         break;
-                     }
-                     else{
-                         curr = curr -> left;
-                     }
+            if(value == 1){
+                curr = curr -> right;
+                if(curr -> data && curr -> freq > 0){
+                    cout << curr -> data;
+                    curr -> freq = (curr -> freq - 1);
+                    curr = root;
                 }
-                if(value == 0){
-                    if(curr -> data){
-                        cout << curr -> data;
-                        break;
-                    }
-                    else{
-                        curr = curr -> left;
-                    }
+            }
+            if(value == 0){
+                curr = curr -> left;
+                if(curr -> data && curr -> freq >0){
+                    cout << curr -> data;
+                    curr -> freq = (curr -> freq - 1);
+                    curr = root;
                 }
             }
         }
     }
 }
-                        
+
+// Lowest Common Ancestor
+// This is to find the node that connects the two imputed numebrs
+
+// need to map this out!!!
+
+
+node* lca(node *root, int v1, int v2){
+    if(root == NULL){
+        return;
+    }
+    else{
+        // this will get two pointers at the data points v1 and v2
+        node *pointerV1 = root, *pointerV2 = root;
+        node* arrayp = {pointerV1,pointerV2};
+        int array = {v1,v2};
+        for(int i = 0; i < 2; i++){
+            while(arrayp[i]){
+                if(arrayp[i] -> data < array[i]){
+                    if(arrayp[i] -> left){
+                        arrayp[i] = arrayp[i] -> left;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                else{
+                    if(arrayp[i] -> rigth){
+                        arrayp[i] = arrayp[i] -> right;
+                    }
+                    else{
+                        break;
+                    }
+                }
+            }
+            
+            // out of the for loop
+        }
+
+    }
+
+    return Common_Assender;
+
+}
+
+
+        
+
+
+
+    }
+
+}
     
 
 int main()
