@@ -283,56 +283,24 @@ void decode_huff(node* root, string s){
 }
 
 // Lowest Common Ancestor
-// This is to find the node that connects the two imputed numebrs
-
-// need to map this out!!!
-
+// Working
 
 node* lca(node *root, int v1, int v2){
     if(root == NULL){
         return;
     }
-    else{
-        // this will get two pointers at the data points v1 and v2
-        node *pointerV1 = root, *pointerV2 = root;
-        node* arrayp = {pointerV1,pointerV2};
-        int array = {v1,v2};
-        for(int i = 0; i < 2; i++){
-            while(arrayp[i]){
-                if(arrayp[i] -> data < array[i]){
-                    if(arrayp[i] -> left){
-                        arrayp[i] = arrayp[i] -> left;
-                    }
-                    else{
-                        break;
-                    }
-                }
-                else{
-                    if(arrayp[i] -> rigth){
-                        arrayp[i] = arrayp[i] -> right;
-                    }
-                    else{
-                        break;
-                    }
-                }
-            }
-            
-            // out of the for loop
-        }
-
+    if(root -> key == v1 || root -> key == v2){
+        return root;
     }
 
-    return Common_Assender;
+    Node* left_lca = findLCA(root->left, v1, v2);
+    Node* right_lca = findLCA(root->right, v1, v2);
 
-}
+    if(left_lca && right_lca){
+        return root;
+      }
 
-
-        
-
-
-
-    }
-
+    return (left_lca != NULL)? left_lca: right_lca; 
 }
     
 
